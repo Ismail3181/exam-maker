@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<script>var EMV=1;window.EM_SWAP=0;try{var _a=localStorage.getItem('em_app'),_v=+localStorage.getItem('em_ver');if(_a&&_v>EMV){window.EM_SWAP=1;document.addEventListener('DOMContentLoaded',function(){if(window.EM_DONE)return;window.EM_DONE=1;document.open();document.write(_a);document.close()})}}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exam Maker</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f7fd;--card:#fff;--ink:#14202e;--mut:#586a80;--line:#d5e1f0;--acc:#1f6feb;--on:#fff;--ok:#0a7a45;--okb:#e2f4e8;--bad:#b3261e;--badb:#fcebe9;--sel:#e5efff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1520;--card:#151e2b;--ink:#e8eef7;--mut:#98a8bd;--line:#263447;--acc:#6aa5ff;--on:#04101f;--ok:#4cd694;--okb:#10301f;--bad:#ff8a80;--badb:#3a1714;--sel:#162a47;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1520;--card:#151e2b;--ink:#e8eef7;--mut:#98a8bd;--line:#263447;--acc:#6aa5ff;--on:#04101f;--ok:#4cd694;--okb:#10301f;--bad:#ff8a80;--badb:#3a1714;--sel:#162a47;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:32px;margin:8px 0 4px;color:var(--acc);font-weight:700;letter-spacing:.3px}
+h3{margin:20px 0 4px}
+button{font:inherit;cursor:pointer}
+.mut{color:var(--mut);font-size:14px}
+textarea{width:100%;min-height:230px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;resize:vertical}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:12px 0}
+summary{cursor:pointer;font-weight:600}
+pre{white-space:pre-wrap;font:inherit;font-size:14px;margin:8px 0;color:var(--mut)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+label{display:block;font-size:14px;color:var(--mut)}
+.grid input,.grid select{display:block;width:100%;margin-top:4px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.ck{display:flex;gap:8px;align-items:center;margin:6px 0;color:var(--ink);font-size:16px}
+.st{font-size:15px;margin:8px 0}
+.pri{width:100%;padding:14px;border:0;border-radius:12px;background:var(--acc);color:var(--on);font-weight:600;margin-top:12px}
+.pri:disabled{opacity:.4;cursor:not-allowed}
+.pri{box-shadow:0 4px 14px rgba(31,111,235,.28)}
+textarea:focus,input:focus,select:focus{outline:2px solid var(--acc);border-color:var(--acc)}
+.card,details,textarea{box-shadow:0 1px 3px rgba(20,60,120,.06)}
+.sec{padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.sec:disabled{opacity:.4}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.tm{font-weight:700;font-size:22px;font-variant-numeric:tabular-nums}
+.sp{flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.q{font-weight:600;font-size:18px;margin-bottom:12px}
+.opt{display:flex;gap:10px;width:100%;text-align:left;align-items:flex-start;padding:12px;margin:8px 0;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+.opt b{min-width:28px;height:28px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px;flex:none}
+.opt.sel{border-color:var(--acc);background:var(--sel)}
+.opt.sel b{background:var(--acc);color:var(--on)}
+.nav{display:flex;gap:10px}.nav>button{flex:1}
+.pal{display:none;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;margin:10px 0}
+.pal.on{display:grid}
+.pn{padding:8px 0;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.pn.done{background:var(--sel);border-color:var(--acc)}
+.pn.cur{outline:2px solid var(--acc)}
+.score{text-align:center}
+.big{font-size:46px;font-weight:700;color:var(--acc);line-height:1.2}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stats div{background:var(--bg);border-radius:10px;padding:8px}
+.rv{border-left:4px solid var(--line)}
+.rv.c{border-left-color:var(--ok)}
+.rv.w{border-left-color:var(--bad)}
+.rv .opt{padding:8px 10px;margin:4px 0}
+.opt.ok{background:var(--okb);border-color:var(--ok)}
+.opt.bad{background:var(--badb);border-color:var(--bad)}
+.warn{color:var(--bad)}
+.hide{display:none!important}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+#nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 0;font-size:12px;line-height:1.3}
+#nav button.on{color:var(--acc);font-weight:600}
+#nav .i{display:block;font-size:20px}
+#setup{padding-bottom:76px}
+main{zoom:var(--z,1)}
+.tools,.row{display:flex;gap:8px;margin:8px 0}
+.row>input,.row>select{flex:1;min-width:0;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.fl{margin:8px 0}.fl input{display:block;margin-top:4px;max-width:100%;color:var(--ink)}
+.star{float:right;border:0;background:none;font-size:26px;color:var(--mut);padding:0 0 0 8px}
+.hr{display:flex;justify-content:space-between;gap:8px;padding:4px 0}
+.pb{height:6px;background:var(--bg);border-radius:4px}.pb i{display:block;height:100%;background:var(--acc);border-radius:4px}
+</style>
+</head>
+<body>
+<main>
+<section id="setup">
+  <h1>Exam Maker</h1>
+  <button class="pri hide" id="ub" data-t="urel" style="margin:0 0 10px"></button>
+  <div class="tab" id="t0">
+    <p class="mut" data-t="intro"></p>
+    <details><summary data-t="fmt"></summary><pre id="pre"></pre><button class="sec" id="smp" data-t="smp"></button></details>
+    <textarea id="src" data-p="ph"></textarea>
+    <div class="st" id="st"></div>
+    <div class="row"><select id="md"><option value="e" data-t="mE"></option><option value="p" data-t="mP"></option></select><button class="pri" id="go" data-t="go" style="width:auto;flex:2;margin:0"></button></div>
+    <button class="sec" id="nb" style="width:100%;margin:6px 0"></button>
+  </div>
+  <div class="tab hide" id="t1">
+    <h3 data-t="lib"></h3>
+    <div class="row"><input id="nm" data-p="nm"><button class="sec" id="sv" data-t="save"></button></div>
+    <div class="row"><select id="sl"></select><button class="sec" id="ld" data-t="load"></button><button class="sec" id="dl" data-t="del"></button></div>
+    <label class="fl"><span data-t="file"></span><input type="file" id="fl" accept=".txt,text/plain"></label>
+    <details><summary data-t="bk"></summary><p class="mut" data-t="bkh"></p><textarea id="bk" style="min-height:90px"></textarea><div class="row"><button class="sec" id="mk" data-t="mk"></button><button class="sec" id="rs" data-t="rs"></button></div></details>
+  </div>
+  <div class="tab hide" id="t2">
+    <h3 data-t="hist"></h3><div id="hl"></div>
+  </div>
+  <div class="tab hide" id="t3">
+    <h3 data-t="tSet"></h3>
+    <div class="grid">
+      <label><span data-t="time"></span><select id="tmm"><option value="t" data-t="tT"></option><option value="q" data-t="tQ"></option><option value="n" data-t="tN"></option></select></label>
+      <label><span data-t="tv"></span><input id="min" type="number" min="1" inputmode="numeric"></label>
+      <label><span data-t="neg"></span><select id="neg"><option value="0" data-t="none"></option><option value="0.25" selected></option><option value="0.5"></option></select></label>
+      <label><span data-t="lang"></span><select id="lg"><option value="bn">বাংলা</option><option value="en">English</option></select></label>
+      <div><span class="mut" data-t="fnt"></span><div class="row" style="margin:4px 0 0"><button class="sec" id="fm">A−</button><button class="sec" id="fp">A+</button><button class="sec" id="th">🌓</button></div></div>
+    </div>
+    <label class="ck"><input type="checkbox" id="sq" checked><span data-t="sq"></span></label>
+    <label class="ck"><input type="checkbox" id="so"><span data-t="so"></span></label>
+    <h3 data-t="upd"></h3>
+    <div class="row"><input id="ur" data-p="urp"><button class="sec" id="uc" data-t="uchk"></button></div>
+    <div class="row"><button class="sec" id="uz" data-t="ures"></button></div>
+    <div class="mut" id="us"></div>
+  </div>
+</section>
+
+<section id="exam" class="hide">
+  <div class="bar"><span class="tm" id="tm">00:00</span><span class="mut" id="prog"></span><span class="sp"></span><button class="sec" id="pt" data-t="pt"></button><button class="sec" id="sub" data-t="sub"></button></div>
+  <div id="pal" class="pal"></div>
+  <div id="cf" class="card hide"><div id="cft"></div><div class="nav" style="margin-top:10px"><button class="sec" id="no" data-t="no"></button><button class="pri" id="yes" data-t="yes" style="margin:0"></button></div></div>
+  <div class="card" id="qb"></div>
+  <div class="nav"><button class="sec" id="prev" data-t="prev"></button><button class="sec" id="next" data-t="next"></button></div>
+</section>
+
+<section id="result" class="hide"></section>
+</main>
+<nav id="nav"><button data-tab="0"><span class="i">🏠</span><span data-t="tHome"></span></button><button data-tab="1"><span class="i">📚</span><span data-t="tSets"></span></button><button data-tab="2"><span class="i">📊</span><span data-t="tHist"></span></button><button data-tab="3"><span class="i">⚙️</span><span data-t="tSet"></span></button></nav>
+<script>(function(){if(window.EM_SWAP)return;
+const $=s=>document.querySelector(s);
+const D={
+bn:{intro:'প্রশ্ন পেস্ট করুন, বাকি সব অটো: টাইমার, শাফল, স্কোর, নেগেটিভ মার্কিং ও রিভিউ।',fmt:'প্রশ্ন লেখার ফরম্যাট',smp:'নমুনা প্রশ্ন বসান',ph:'এখানে ৫০, ৬০ বা ১০০টা প্রশ্ন পেস্ট করুন',time:'সময় (মিনিট)',neg:'নেগেটিভ মার্ক (ভুলে)',none:'নেই',lang:'ইন্টারফেস ভাষা',sq:'প্রশ্ন এলোমেলো করুন',so:'অপশন এলোমেলো করুন',go:'পরীক্ষা শুরু করুন',pt:'তালিকা',sub:'জমা',no:'ফিরে যান',yes:'জমা দিন',prev:'← আগের',next:'পরের →',auto:'অটো',noq:'প্রশ্ন পেস্ট করলে এখানে সংখ্যা দেখাবে',
+found:n=>`✅ <b>${n}</b>টি প্রশ্ন পাওয়া গেছে`,drop:(n,l)=>`⚠️ ${n}টি প্রশ্ন বাদ (অপশন বা উত্তর মেলেনি): ${l}`,un:n=>`${n}টি প্রশ্নের উত্তর দেওয়া হয়নি। জমা দেবেন?`,all:'সব প্রশ্নের উত্তর দেওয়া হয়েছে। জমা দেবেন?',score:'আপনার স্কোর',pct:p=>`${p}% সঠিক`,cut:x=>` · নেগেটিভ −${x}`,c:'সঠিক',w:'ভুল',s:'বাদ',aw:'ভুল ও বাদগুলো আবার',aa:'পুরোটা আবার',nw:'নতুন প্রশ্ন দিন',rv:'রিভিউ',sk:'— উত্তর দেননি',rt:'✔ সঠিক',wr:'✘ ভুল',
+pre:`প্রশ্ন: বাংলাদেশের রাজধানী কোথায়?
+ক) চট্টগ্রাম
+খ) ঢাকা
+গ) সিলেট
+ঘ) খুলনা
+উত্তর: খ
+ব্যাখ্যা: (ঐচ্ছিক)
+
+(পরের প্রশ্ন একই ভাবে। A/B/C/D বা ১/২/৩/৪ও চলবে)
+বিষয়: বাংলা  ← ঐচ্ছিক, এর পরের প্রশ্নগুলো এই বিষয়ের`,
+sample:`প্রশ্ন: বাংলাদেশের জাতীয় কবি কে?
+ক) রবীন্দ্রনাথ ঠাকুর
+খ) কাজী নজরুল ইসলাম
+গ) জীবনানন্দ দাশ
+ঘ) জসীমউদ্দীন
+উত্তর: খ
+
+প্রশ্ন: বাংলাদেশের মুক্তিযুদ্ধ কত সালে হয়েছিল?
+ক) ১৯৬৯
+খ) ১৯৭০
+গ) ১৯৭১
+ঘ) ১৯৭২
+উত্তর: গ
+
+প্রশ্ন: আয়তনে বাংলাদেশের বৃহত্তম জেলা কোনটি?
+ক) রাঙ্গামাটি
+খ) খুলনা
+গ) সিলেট
+ঘ) ময়মনসিংহ
+উত্তর: ক
+ব্যাখ্যা: পার্বত্য জেলা রাঙ্গামাটি আয়তনে সবচেয়ে বড়।`},
+en:{intro:'Paste your questions and the rest is automatic: timer, shuffle, score, negative marking and review.',fmt:'Question format',smp:'Insert sample questions',ph:'Paste 50, 60 or 100 questions here',time:'Time (minutes)',neg:'Negative mark (per wrong)',none:'None',lang:'Interface language',sq:'Shuffle questions',so:'Shuffle options',go:'Start exam',pt:'List',sub:'Submit',no:'Go back',yes:'Submit now',prev:'← Prev',next:'Next →',auto:'auto',noq:'The number of questions will show here',
+found:n=>`✅ <b>${n}</b> questions found`,drop:(n,l)=>`⚠️ ${n} skipped (options or answer not matched): ${l}`,un:n=>`${n} unanswered. Submit now?`,all:'All questions answered. Submit now?',score:'Your score',pct:p=>`${p}% correct`,cut:x=>` · Negative −${x}`,c:'Correct',w:'Wrong',s:'Skipped',aw:'Retry wrong & skipped',aa:'Retry all',nw:'New questions',rv:'Review',sk:'— Not answered',rt:'✔ Correct',wr:'✘ Wrong',
+pre:`Q: What is the capital of Bangladesh?
+A) Chattogram
+B) Dhaka
+C) Sylhet
+D) Khulna
+Answer: B
+Explanation: (optional)
+
+(Next questions the same way. ক/খ/গ/ঘ or 1/2/3/4 also work)
+Subject: Bangla  ← optional, applies to the questions after it`,
+sample:`Q: Who is the national poet of Bangladesh?
+A) Rabindranath Tagore
+B) Kazi Nazrul Islam
+C) Jibanananda Das
+D) Jasimuddin
+Answer: B
+
+Q: In which year did the Liberation War of Bangladesh take place?
+A) 1969
+B) 1970
+C) 1971
+D) 1972
+Answer: C
+
+Q: Which is the largest district of Bangladesh by area?
+A) Rangamati
+B) Khulna
+C) Sylhet
+D) Mymensingh
+Answer: A
+Explanation: Rangamati, a hill district, is the largest by area.`}};
+let lang='bn';try{lang=localStorage.getItem('em_lang')||'bn'}catch(e){}
+Object.assign(D.bn,{nm:'সেটের নাম',save:'সেভ',load:'খুলুন',del:'মুছুন',sure:'নিশ্চিত?',file:'.txt ফাইল থেকে প্রশ্ন নিন',md:'মোড',mE:'পরীক্ষা',mP:'প্র্যাকটিস',nb:'ভুলের খাতা',hist:'ফলাফলের ইতিহাস',noh:'এখনো কোনো ফলাফল নেই',bk:'ব্যাকআপ ও রিস্টোর',bkh:'"ব্যাকআপ তৈরি" চাপলে ডেটা কপি হবে, নোটে রেখে দিন। ফেরত আনতে এখানে পেস্ট করে "রিস্টোর" চাপুন।',mk:'ব্যাকআপ তৈরি',rs:'রিস্টোর',subj:'বিষয় অনুযায়ী ফল'});
+Object.assign(D.en,{nm:'Set name',save:'Save',load:'Load',del:'Delete',sure:'Sure?',file:'Load questions from a .txt file',md:'Mode',mE:'Exam',mP:'Practice',nb:'Mistakes notebook',hist:'Result history',noh:'No results yet',bk:'Backup & restore',bkh:'"Create backup" copies your data; keep it in your notes. To bring it back, paste it here and tap Restore.',mk:'Create backup',rs:'Restore',subj:'Score by subject'});
+Object.assign(D.bn,{tHome:'হোম',tSets:'সেট',tHist:'ইতিহাস',tSet:'সেটিংস',lib:'প্রশ্নের সেট',fnt:'ফন্ট ও থিম'});
+Object.assign(D.en,{tHome:'Home',tSets:'Sets',tHist:'History',tSet:'Settings',lib:'Question sets',fnt:'Font & theme'});
+Object.assign(D.bn,{time:'সময়ের ধরন',tv:'সময়ের মান',tT:'মোট সময় (মিনিট)',tQ:'প্রতি প্রশ্নে (সেকেন্ড)',tN:'সময়সীমা নেই',sec:'সেকেন্ড',upd:'অ্যাপ আপডেট',urp:'আপডেট লিংক (raw index.html)',uchk:'চেক করুন',ures:'মূল ভার্সনে ফিরুন',uno:'আগে আপডেট লিংক দিন',unew:'নতুন ভার্সন প্রস্তুত',urel:'🔄 নতুন ভার্সন চালু করুন',ulat:'সর্বশেষ ভার্সনেই আছেন',uerr:'চেক করা যায়নি, নেট বা লিংক দেখুন'});
+Object.assign(D.en,{time:'Timer type',tv:'Value',tT:'Total time (minutes)',tQ:'Per question (seconds)',tN:'No timer',sec:'sec',upd:'App update',urp:'Update link (raw index.html)',uchk:'Check',ures:'Back to built-in version',uno:'Enter an update link first',unew:'New version ready',urel:'🔄 Switch to new version',ulat:'You have the latest version',uerr:'Could not check. Check internet or link'});
+const T=k=>D[lang][k];
+const bn=n=>lang=='bn'?String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]):String(n);
+const lb=k=>(lang=='bn'?'কখগঘঙ':'ABCDE')[k];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S=null,cfg={neg:0},Q=[];
+const ls={get(){try{return localStorage.getItem('em_src')||''}catch(e){return ''}},set(v){try{localStorage.setItem('em_src',v)}catch(e){}}};
+
+function res(a,o){
+  a=a.trim();
+  const m=a.match(/^\(?([কখগঘঙa-e১-৫1-5])(?:[\)\.\s।:]|$)/i);
+  if(m){
+    const k=m[1].toLowerCase();
+    const i=['কখগঘঙ','abcde','১২৩৪৫','12345'].map(s=>s.indexOf(k)).find(x=>x>=0);
+    if(i!=null&&i<o.length)return i;
+  }
+  return o.findIndex(x=>x===a);
+}
+function parse(t){
+  const qs=[],errs=[];let c=null,m,sub='';
+  const push=()=>{
+    if(!c)return;
+    const i=c.o.length>=2&&c.a!=null?res(c.a,c.o):-1;
+    if(i<0)errs.push(c.q.slice(0,30));else qs.push({q:c.q,o:c.o,a:i,e:c.e,t:c.t});
+  };
+  for(const raw of t.split(/\r?\n/)){
+    const l=raw.trim();if(!l)continue;
+    if(m=l.match(/^(?:বিষয়|subject|topic)\s*[:：\-–]\s*(.+)$/i)){sub=m[1].trim();continue}
+    if(c&&(m=l.match(/^\(?([কখগঘঙA-Ea-e])[\)\.\:।]\s*(.+)$/))){c.o.push(m[2].trim());continue}
+    if(c&&(m=l.match(/^(?:সঠিক\s*উত্তর|উত্তর|ans(?:wer)?)\s*[:：\-–]\s*(.+)$/i))){c.a=m[1];continue}
+    if(c&&(m=l.match(/^(?:ব্যাখ্যা|explanation)\s*[:：\-–]\s*(.+)$/i))){c.e=m[1];continue}
+    const q=l.replace(/^(?:প্রশ্ন|Q(?:uestion)?)?\s*[\d০-৯]*\s*[:：\.\)\-।]\s*/i,'');
+    if(!c||c.o.length||c.a!=null){push();c={q:q,o:[],a:null,e:'',t:sub}}else c.q+=' '+q;
+  }
+  push();
+  return {qs,errs};
+}
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function prep(qs,sq,so){
+  const r=qs.map(q=>{
+    if(!so)return {...q};
+    const idx=shuf(q.o.map((_,i)=>i));
+    return {...q,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a)};
+  });
+  return sq?shuf(r):r;
+}
+const show=id=>{['setup','exam','result'].forEach(x=>$('#'+x).classList.toggle('hide',x!=id));if(id=='setup'){refresh();tab(0)}$('#nav').classList.toggle('hide',id!='setup');scrollTo(0,0)};
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(e=>e.textContent=T(e.dataset.t));
+  document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=T(e.dataset.p));
+  $('#pre').textContent=T('pre');
+  const o=$('#neg').options;o[1].text=bn('0.25');o[2].text=bn('0.5');
+  $('#lg').value=lang;
+}
+function upd(){
+  const v=$('#src').value,r=parse(v);Q=r.qs;
+  let h=Q.length?T('found')(bn(Q.length)):T('noq');
+  if(r.errs.length)h+=`<div class="warn">${T('drop')(bn(r.errs.length),r.errs.slice(0,3).map(esc).join('; '))}</div>`;
+  $('#st').innerHTML=h;
+  $('#go').disabled=!Q.length;
+  phMin();
+  ls.set(v);
+}
+function begin(qs,mins,prac){
+  S={qs,ans:qs.map(()=>-1),i:0,end:Date.now()+mins*60000,done:0,prac:!!prac,st:new Set()};
+  show('exam');$('#cf').classList.add('hide');$('#pal').classList.remove('on');
+  if(prac||!mins){$('#tm').textContent=prac?'✎':'∞';$('#tm').classList.remove('warn')}else{tick();S.t=setInterval(tick,1000)}render();
+}
+function tick(){
+  const r=Math.max(0,Math.ceil((S.end-Date.now())/1000));
+  const p=n=>bn(String(n).padStart(2,'0'));
+  $('#tm').textContent=p(Math.floor(r/60))+':'+p(r%60);
+  $('#tm').classList.toggle('warn',r<60);
+  if(!r)finish();
+}
+function render(){
+  const q=S.qs[S.i],a0=S.ans[S.i],lock=S.prac&&a0>=0;
+  $('#prog').textContent=`${bn(S.i+1)}/${bn(S.qs.length)}`;
+  $('#qb').innerHTML=`<button class="star">${S.st.has(S.i)?'⭐':'☆'}</button>${q.t?`<div class="mut">${esc(q.t)}</div>`:''}<div class="q">${esc(q.q)}</div>`+q.o.map((o,k)=>`<button class="opt${lock?(k==q.a?' ok':k==a0?' bad':''):a0===k?' sel':''}" data-k="${k}"><b>${lb(k)}</b><span>${esc(o)}</span></button>`).join('')+(lock&&q.e?`<div class="mut">💡 ${esc(q.e)}</div>`:'');
+  $('#prev').disabled=S.i==0;$('#next').disabled=S.i==S.qs.length-1;
+  $('#pal').innerHTML=S.qs.map((_,k)=>`<button class="pn${S.ans[k]>=0?' done':''}${k==S.i?' cur':''}" data-n="${k}">${bn(k+1)}</button>`).join('');
+}
+function finish(){
+  if(S.done)return;S.done=1;clearInterval(S.t);
+  let c=0,w=0,s=0;const bad=[];
+  S.qs.forEach((q,i)=>{const a=S.ans[i];if(a<0){s++;bad.push(q)}else if(a==q.a)c++;else{w++;bad.push(q)}});
+  const n=S.qs.length,cut=S.prac?0:w*cfg.neg,sc=c-cut,f=x=>bn(+x.toFixed(2));
+  S.bad=bad;track(c,sc,n);
+  $('#result').innerHTML=`<div class="card score"><div class="mut">${T('score')}</div><div class="big">${f(sc)} / ${bn(n)}</div><div class="mut">${T('pct')(bn(Math.round(c/n*100)))}${cut?T('cut')(f(cut)):''}</div><div class="stats"><div>✅ ${T('c')}<br><b>${bn(c)}</b></div><div>❌ ${T('w')}<br><b>${bn(w)}</b></div><div>⏭ ${T('s')}<br><b>${bn(s)}</b></div></div></div>${subTbl()}
+<div class="nav">${bad.length?`<button class="pri" data-act="wrong" style="margin:0">${T('aw')}</button>`:''}<button class="sec" data-act="again">${T('aa')}</button></div>
+<button class="sec" data-act="new" style="width:100%;margin:10px 0">${T('nw')}</button><h3>${T('rv')}</h3>`+
+  S.qs.map((q,i)=>{
+    const a=S.ans[i],st=a<0?'':a==q.a?'c':'w';
+    return `<div class="card rv ${st}"><div class="mut">${S.st.has(i)?'⭐ ':''}${bn(i+1)}. ${a<0?T('sk'):a==q.a?T('rt'):T('wr')}</div><div class="q" style="font-size:16px">${esc(q.q)}</div>`+
+      q.o.map((o,k)=>`<div class="opt${k==q.a?' ok':k==a?' bad':''}"><b>${lb(k)}</b><span>${esc(o)}</span></div>`).join('')+
+      (q.e?`<div class="mut">💡 ${esc(q.e)}</div>`:'')+'</div>';
+  }).join('');
+  show('result');
+}
+
+$('#src').oninput=upd;
+$('#lg').onchange=e=>{lang=e.target.value;try{localStorage.setItem('em_lang',lang)}catch(x){}applyLang();upd();refresh()};
+$('#smp').onclick=()=>{$('#src').value=T('sample');upd()};
+$('#go').onclick=()=>{
+  cfg={neg:+$('#neg').value};
+  begin(prep(Q,$('#sq').checked,$('#so').checked),mins(Q.length),$('#md').value=='p');
+};
+$('#qb').onclick=e=>{
+  if(e.target.closest('.star')){S.st.has(S.i)?S.st.delete(S.i):S.st.add(S.i);render();return}
+  const b=e.target.closest('.opt');if(!b)return;const k=+b.dataset.k;
+  if(S.prac){if(S.ans[S.i]>=0)return;S.ans[S.i]=k}else S.ans[S.i]=S.ans[S.i]===k?-1:k;
+  render()};
+$('#pal').onclick=e=>{const b=e.target.closest('.pn');if(!b)return;S.i=+b.dataset.n;render();$('#pal').classList.remove('on');scrollTo(0,0)};
+$('#pt').onclick=()=>$('#pal').classList.toggle('on');
+$('#prev').onclick=()=>{S.i--;render();scrollTo(0,0)};
+$('#next').onclick=()=>{S.i++;render();scrollTo(0,0)};
+$('#sub').onclick=()=>{
+  const u=S.ans.filter(a=>a<0).length;
+  $('#cft').textContent=u?T('un')(bn(u)):T('all');
+  $('#cf').classList.remove('hide');
+};
+$('#no').onclick=()=>$('#cf').classList.add('hide');
+$('#yes').onclick=finish;
+$('#result').onclick=e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  if(a=='new'){show('setup');return}
+  const base=a=='wrong'?S.bad:S.qs;
+  begin(prep(base,$('#sq').checked,$('#so').checked),mins(base.length),S.prac);
+};
+const J={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const sets=()=>J.get('em_sets',{});
+function chart(h){
+  const st=h.length>1?280/(h.length-1):0,pt=h.map((x,i)=>[10+i*st,80-x.p*.7]);
+  return `<svg viewBox="0 0 300 90" width="100%" style="max-width:420px"><polyline fill="none" style="stroke:var(--acc)" stroke-width="2.5" points="${pt.map(p=>p.join(',')).join(' ')}"/>${pt.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" style="fill:var(--acc)"/>`).join('')}</svg>`;
+}
+function refresh(){
+  const k=Object.keys(sets());
+  $('#sl').innerHTML=k.length?k.map(x=>`<option>${esc(x)}</option>`).join(''):'<option value="">—</option>';
+  const nb=J.get('em_nb',[]);
+  $('#nb').textContent=`📒 ${T('nb')} (${bn(nb.length)})`;$('#nb').disabled=!nb.length;
+  const h=J.get('em_h',[]).slice(-10);
+  $('#hl').innerHTML=h.length?chart(h)+h.slice().reverse().map(x=>`<div class="hr"><span>${new Date(x.d).toLocaleDateString(lang=='bn'?'bn-BD':'en-GB')}</span><b>${bn(x.s)}/${bn(x.n)}</b><span>${bn(x.p)}%</span></div>`).join(''):`<div class="mut">${T('noh')}</div>`;
+}
+function subTbl(){
+  const g={};S.qs.forEach((q,i)=>{if(!q.t)return;const x=g[q.t]=g[q.t]||[0,0];x[1]++;if(S.ans[i]==q.a)x[0]++});
+  const k=Object.keys(g);if(!k.length)return '';
+  return `<div class="card"><b>${T('subj')}</b>`+k.map(t=>{const [a,b]=g[t],p=Math.round(a/b*100);return `<div class="hr"><span>${esc(t)}</span><span>${bn(a)}/${bn(b)}</span><b>${bn(p)}%</b></div><div class="pb"><i style="width:${p}%"></i></div>`}).join('')+'</div>';
+}
+function track(c,sc,n){
+  const m=new Map(J.get('em_nb',[]).map(x=>[x.q,x]));
+  S.qs.forEach((q,i)=>{
+    const ok=S.ans[i]==q.a,x=m.get(q.q),star=S.st.has(i);
+    if(!ok||star){if(!ok||!x)m.set(q.q,{q:q.q,o:q.o,a:q.a,e:q.e,t:q.t,k:0})}
+    else if(x){x.k=(x.k||0)+1;if(x.k>=2)m.delete(q.q)}
+  });
+  J.set('em_nb',[...m.values()]);
+  if(!S.prac){const h=J.get('em_h',[]);h.push({d:Date.now(),s:+sc.toFixed(2),n,p:Math.round(c/n*100)});J.set('em_h',h.slice(-50))}
+}
+$('#sv').onclick=()=>{const n=$('#nm').value.trim(),v=$('#src').value;if(!n||!v.trim())return;const s=sets();s[n]=v;J.set('em_sets',s);$('#nm').value='';refresh();$('#sl').value=n};
+$('#ld').onclick=()=>{const s=sets(),k=$('#sl').value;if(k in s){$('#src').value=s[k];upd()}};
+$('#dl').onclick=e=>{
+  const b=e.target;
+  if(!b.dataset.c){b.dataset.c=1;b.textContent=T('sure');setTimeout(()=>{delete b.dataset.c;b.textContent=T('del')},3000);return}
+  delete b.dataset.c;b.textContent=T('del');const s=sets();delete s[$('#sl').value];J.set('em_sets',s);refresh();
+};
+$('#fl').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#src').value=r.result;upd()};r.readAsText(f);e.target.value=''};
+$('#nb').onclick=()=>{const nb=J.get('em_nb',[]);if(!nb.length)return;cfg={neg:+$('#neg').value};begin(prep(nb,$('#sq').checked,$('#so').checked),mins(nb.length),$('#md').value=='p')};
+$('#mk').onclick=()=>{const v=JSON.stringify({s:sets(),n:J.get('em_nb',[]),h:J.get('em_h',[])});$('#bk').value=v;$('#bk').select();try{navigator.clipboard.writeText(v)}catch(e){}};
+$('#rs').onclick=()=>{try{const d=JSON.parse($('#bk').value);if(d.s)J.set('em_sets',{...sets(),...d.s});if(d.n)J.set('em_nb',d.n);if(d.h)J.set('em_h',d.h);refresh();$('#bk').value=''}catch(e){$('#bk').value='⚠️'}};
+let z=+J.get('em_z',1);const setZ=()=>{document.documentElement.style.setProperty('--z',z);J.set('em_z',z)};
+$('#fm').onclick=()=>{z=Math.max(.8,+(z-.1).toFixed(1));setZ()};
+$('#fp').onclick=()=>{z=Math.min(1.5,+(z+.1).toFixed(1));setZ()};
+const th0=J.get('em_th','');if(th0)document.documentElement.dataset.theme=th0;
+$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark';J.set('em_th',r.dataset.theme)};
+setZ();
+function tab(i){document.querySelectorAll('.tab').forEach((e,k)=>e.classList.toggle('hide',k!=i));document.querySelectorAll('#nav button').forEach((b,k)=>b.classList.toggle('on',k==i));scrollTo(0,0)}
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)tab(+b.dataset.tab)};
+function mins(n){const v=parseFloat($('#min').value),m=$('#tmm').value;return m=='n'?0:m=='q'?(v||60)*n/60:(v||n)}
+function phMin(){const m=$('#tmm').value,n=Q.length;$('#min').placeholder=m=='n'?'—':m=='q'?bn(60)+' ('+T('sec')+')':(n?bn(n):'')+' ('+T('auto')+')';$('#min').disabled=m=='n'}
+function saveCfg(){J.set('em_cfg',{tmm:$('#tmm').value,min:$('#min').value,neg:$('#neg').value,md:$('#md').value,sq:$('#sq').checked,so:$('#so').checked})}
+function loadCfg(){const c=J.get('em_cfg',null);if(!c)return;$('#tmm').value=c.tmm;$('#min').value=c.min;$('#neg').value=c.neg;$('#md').value=c.md;$('#sq').checked=c.sq;$('#so').checked=c.so}
+document.addEventListener('change',saveCfg);$('#min').addEventListener('input',saveCfg);$('#tmm').addEventListener('change',phMin);
+const CUR=()=>Math.max(EMV,+(localStorage.getItem('em_ver')||0));
+async function chk(manual){
+  const u=($('#ur').value||'').trim(),o=$('#us');
+  if(!u){if(manual)o.textContent=T('uno');return}
+  if(manual)o.textContent='…';
+  try{
+    const r=await fetch(u,{cache:'no-store'}),t=await r.text(),m=t.match(/var EMV=(\d+)/);
+    if(!r.ok||!m||!/<\/html>\s*$/i.test(t))throw 0;
+    const v=+m[1];
+    if(v>CUR()){localStorage.setItem('em_app',t);localStorage.setItem('em_ver',v);$('#ub').classList.remove('hide');o.textContent=T('unew')+' (v'+v+')'}
+    else if(manual)o.textContent=T('ulat')+' (v'+CUR()+')';
+  }catch(e){if(manual)o.textContent=T('uerr')}
+}
+$('#uc').onclick=()=>chk(true);
+$('#ub').onclick=()=>location.reload();
+$('#uz').onclick=()=>{try{localStorage.removeItem('em_app');localStorage.removeItem('em_ver')}catch(e){}location.reload()};
+$('#ur').value=J.get('em_url','');$('#ur').oninput=()=>J.set('em_url',$('#ur').value);
+$('#src').value=ls.get();applyLang();loadCfg();upd();refresh();tab(0);
+setTimeout(()=>{if(navigator.onLine!==false)chk(false)},1500);
+})();
+</script>
+</body>
+</html>
